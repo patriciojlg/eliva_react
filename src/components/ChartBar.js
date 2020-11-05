@@ -53,7 +53,7 @@ export default function ChartBar(){
         <Bar
           data={data}
           width={100}
-          height={350}
+          height={245}
           options={{
             maintainAspectRatio: false
           }}

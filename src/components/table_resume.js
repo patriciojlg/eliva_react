@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  makeStyles
-} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,102 +8,49 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const TAX_RATE = 0.07;
-
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    minWidth: 650,
   },
-  title2: {
-    marginTop: "0.0em !important",
-    marginBottom: "0.3em !important",
-    color: "#2e47ce",
-
-    textAlign: "left !important",
-  },
-  p2: {
-    textAlign: "left !important",
-    marginLeft: "0.0em",
-    color: "gray",
-    marginBottom: "0.3em !important",
-  }
 });
 
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
-}
-
-function priceRow(qty, unit) {
-  return qty * unit;
-}
-
-function createRow(desc, qty, unit) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price };
-}
-
-function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
 }
 
 const rows = [
-  createRow('Boletas venta (Box)', 100, 1.15),
-  createRow('Facturas venta', 10, 45.99),
-  createRow('Facturas de compra', 2, 17.99),
-  createRow('Boletas honorario', 2, 17.99),
-  createRow('PPM', 2, 17.99),
-
+  createData('Boletas Venta', 159000, ),
+  createData('Facturas de Venta', 237, ),
+  createData('Facturas Compra', -262),
+  createData('Boletas Honorario', -305, ),
+  createData('Caja Chica', 356, ),
+  createData('PPM', 356, ),
+  createData('Impuesto único trabajador', 356, ),
 ];
-
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 export default function ResumeTable() {
   const classes = useStyles();
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="spanning table">
+      <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center" colSpan={3}>
-              <h2 className={classes.title2}>F29 simplificado</h2>
-              <p className={classes.p2}>Detalle</p>
-            </TableCell>
-            <TableCell align="right">Price</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Documento</TableCell>
-            <TableCell align="right">Bruto</TableCell>
-            <TableCell align="right">Neto</TableCell>
-            <TableCell align="right">IVA</TableCell>
+            <TableCell>F29 Resumen mensual</TableCell>
+            <TableCell align="right">I.V.A. a pagar</TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.desc}>
-              <TableCell>{row.desc}</TableCell>
-              <TableCell align="right">{row.qty}</TableCell>
-              <TableCell align="right">{row.unit}</TableCell>
-              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.calories}</TableCell>
+
             </TableRow>
           ))}
-
-          <TableRow>
-            <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Tax</TableCell>
-            <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

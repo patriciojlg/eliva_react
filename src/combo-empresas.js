@@ -4,16 +4,16 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export default function ComboBox({
-  setEmpresa, empresalist
+  setEmpresa, empresalist, setRutempresa
 }) {
 ;
   const defaultProps = {
     options: empresalist,
-    getOptionLabel: (option) => option.value,
+    getOptionLabel: (option) => option.nombre,
   };
 
   const flatProps = {
-    options: empresalist.map((option) => option.value),
+    options: empresalist.map((option) => option.nombre),
   };
 
   function cambiaElValor(e) {

@@ -94,7 +94,9 @@ export default function Widgets({ setDetalle }) {
         <ResumeTable />
       </Grid>
       <Grid item xs={12} sm={12} md={5}>
+      <Link onClick={() => cambiarDetalle("CAJA CHICA")} className={classes.lessAnchorUnderLine} to="/caja-chica">
         <ChartBar />
+        </Link>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <History />

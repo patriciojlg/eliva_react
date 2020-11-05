@@ -8,16 +8,30 @@ const useStyles = makeStyles((theme) => ({
   datePicker: {
     top: "4px",
 marginRight: "20px",
+marginLeft: "10px",
   },
 }));
 
 
 
 
-function YearMonthPicker() {
+function YearMonthPicker({date, setDate}) {
   const classes = useStyles();
   const [selectedDate, handleDateChange] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
+  React.useEffect(()=>{
+    console.log(date)
+    
+     
+    },[date]);
+function setDateGlobal(val){
+  setDate(val);
+  return
+}
+ 
+
+
+
   return (
     <Fragment>
 
@@ -30,7 +44,8 @@ function YearMonthPicker() {
         views={["year", "month"]}
         clearable
         value={selectedDate}
-        onChange={handleDateChange}
+        onChange={val => {handleDateChange(val);
+          setDateGlobal(val);}}
       />
     </Fragment>
   );
