@@ -10,6 +10,11 @@ export default function CajaChica() {
     }
   }));
 
+  const options = {
+
+    "onChangeRowsPerPage": (e) => { console.log("cambio de filas"); }
+  }
+
   const stado = {
     columns: [
       { title: 'Día', field: 'Dia' },
@@ -48,6 +53,7 @@ export default function CajaChica() {
       title="Caja chica"
       columns={state.columns}
       data={state.data}
+      options={options}
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {
@@ -56,6 +62,7 @@ export default function CajaChica() {
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.push(newData);
+                console.log("Se agrega una fila")
                 return { ...prevState, data };
               });
             }, 600);
@@ -68,6 +75,7 @@ export default function CajaChica() {
                 setState((prevState) => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
+                  console.log("Se actualiza un dato")
                   return { ...prevState, data };
                 });
               }
@@ -77,6 +85,7 @@ export default function CajaChica() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
+              console.log("se borra una fila")
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
