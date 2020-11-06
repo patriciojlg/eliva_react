@@ -10,10 +10,6 @@ export default function CajaChica() {
     }
   }));
 
-  const options = {
-
-    "onChangeRowsPerPage": (e) => { console.log("cambio de filas"); }
-  }
 
   const stado = {
     columns: [
@@ -31,29 +27,44 @@ export default function CajaChica() {
   const [state, setState] = React.useState(stado);
   React.useEffect(() => {
     const getData = async (setState, state) => {
-      const api = await Axios.get("http://15.228.82.239/api/cajachica/2020/octubre");
+      const api = await Axios.get("http://127.0.0.1:8080/example-endpoint");
       const cajachica_from_api = await api.data;
 
-      setState({ ...state, data: [cajachica_from_api] });
+      setState({ ...state, data: cajachica_from_api });
       console.log(state)
     }
-    function postState(stado, setState) {
-      Axios.post("http://15.228.82.239/api/cajachica/2020/octubre", stado)
-        .then(response => setState(response.data))
-        .catch(error => {
-          console.error('There was an error!', error);
-        });
-    }
     getData(setState, state);
-  }, [""]);
+  }, []);
+
+  function postAddRow(data) {
+    console.log(data)
+    Axios.post("http://127.0.0.1:8080/example-endpoint", data)
+      .then(response => null)
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+  }
+  function postUpdateRow(data){const id = data["_id"]["$oid"]
+    console.log(data["_id"]["$oid"])
+    Axios.post(`http://127.0.0.1:8080/example-endpoint/${id}`, data)
+    .then(response => null)
+    .catch(error => {
+    console.error('There was an error!', error);
+     });
+  }
+  function postDeleteRow(id) {
+    Axios.delete(`http://127.0.0.1:8080/example-endpoint/${id}`);
+  };
+
+
 
   const classes = useStyles();
   return (
     <MaterialTable
       title="Caja chica"
-      columns={state.columns}
+      columns={stado.columns}
       data={state.data}
-      options={options}
+
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {
@@ -62,10 +73,10 @@ export default function CajaChica() {
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.push(newData);
-                console.log("Se agrega una fila")
+                postAddRow(newData)
                 return { ...prevState, data };
               });
-            }, 600);
+            }, 800);
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
@@ -75,11 +86,12 @@ export default function CajaChica() {
                 setState((prevState) => {
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
-                  console.log("Se actualiza un dato")
+                  postUpdateRow(newData)
+                  console.log(newData)
                   return { ...prevState, data };
                 });
               }
-            }, 600);
+            }, 800);
           }),
         onRowDelete: (oldData) =>
           new Promise((resolve) => {
@@ -88,10 +100,12 @@ export default function CajaChica() {
               console.log("se borra una fila")
               setState((prevState) => {
                 const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
+                var removed = data.splice(data.indexOf(oldData), 1);
+                const removed_id = removed[0]._id["$oid"]
+                postDeleteRow(removed_id) 
                 return { ...prevState, data };
               });
-            }, 600);
+            }, 800);
           }),
       }}
       className={classes.themeMarginTop} />
