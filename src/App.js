@@ -20,7 +20,7 @@ import TableFactura from './table';
 import TableFacturaVenta from './tableFacturaVenta';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CajaChica from './caja-chica';
-
+import Signin from './components/signin';
 function App() {
   //Periodo hooks
   const [date, setDate] = React.useState(new Date());
@@ -81,12 +81,15 @@ function App() {
 
 
   }));
-
+// getter
+const token = localStorage.getItem('token');
 
   const classes = useStyles();
   return (<React.Fragment >
+     {(token === null) ? <Signin /> : 
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Router >
+     
         <PrimarySearchAppBar className={classes.appbar} />
         <div id="algo" className={classes.backgroundMain}>
           <SimpleBreadcrumbs detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
@@ -112,6 +115,7 @@ function App() {
         </div>
       </Router>
     </MuiPickersUtilsProvider>
+    }
   </React.Fragment>);
 }
 
