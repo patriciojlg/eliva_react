@@ -65,8 +65,10 @@ const Signin = () => {
     .then(response => {
         console.log(response)
         setAuthresponse(response.data.msg)
-        localStorage.setItem('token',response.data.access_token);
+        if (response.data.msg == "Login correcto"){
+        localStorage.setItem('token',response.data.access_token)
         window.location.reload()
+    }
     })
     .catch(error => {
     console.error('There was an error!', error);
