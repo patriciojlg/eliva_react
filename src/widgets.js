@@ -1,11 +1,14 @@
 import React from 'react';
+import ImpuestosManuales from "./components/impuestosManuales";
 import DashBoardCard from './components/dashboardcard.js'
+import TotalWidget from './components/total.js'
 import Grid from "@material-ui/core/Grid";
 import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {
   BrowserRouter as Router,
   Switch,
@@ -90,13 +93,29 @@ export default function Widgets({ setDetalle }) {
             colorIcon="#ffd740" />
         </Link>
       </Grid>
-      <Grid item xs={12} sm={12} md={7}>
-        <ResumeTable />
+      <Grid item xs={12} sm={12} md={6}>
+      <Grid container  spacing={1}>
+      <Grid item xs={12} sm={12} md={6}>
+      <TotalWidget type="fill"
+            color="blue"
+            title="TOTAL IVA A PAGAR"
+            value={11500000}
+            lastMonth={260000}
+            icon={<AttachMoneyIcon style={{ fontSize: 200, color: "rgb(46, 69, 123)" }}/>}
+       />
       </Grid>
-      <Grid item xs={12} sm={12} md={5}>
-      <Link onClick={() => cambiarDetalle("CAJA CHICA")} className={classes.lessAnchorUnderLine} to="/caja-chica">
+      <Grid item xs={12} sm={12} md={6}>
+        <ImpuestosManuales />
+       
+        </Grid>
+        </Grid>
+        <Link onClick={() => cambiarDetalle("CAJA CHICA")} className={classes.lessAnchorUnderLine} to="/caja-chica">
         <ChartBar />
         </Link>
+
+      </Grid>
+      <Grid item xs={12} sm={12} md={6}>
+      <ResumeTable />
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <History />

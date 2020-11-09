@@ -27,7 +27,7 @@ export default function CajaChica() {
   const [state, setState] = React.useState(stado);
   React.useEffect(() => {
     const getData = async (setState, state) => {
-      const api = await Axios.get("http://15.228.82.239/api/cajachica");
+      const api = await Axios.get("http://52.67.32.82/api/cajachica");
       const cajachica_from_api = await api.data;
 
       setState({ ...state, data: cajachica_from_api });
@@ -38,7 +38,7 @@ export default function CajaChica() {
 
   function postAddRow(data) {
     console.log(data)
-    Axios.post("http://15.228.82.239/api/cajachica", data)
+    Axios.post("http://52.67.32.82/api/cajachica", data)
       .then(response => null)
       .catch(error => {
         console.error('There was an error!', error);
@@ -46,14 +46,14 @@ export default function CajaChica() {
   }
   function postUpdateRow(data){const id = data["_id"]["$oid"]
     console.log(data["_id"]["$oid"])
-    Axios.post(`http://15.228.82.239/api/cajachica/${id}`, data)
+    Axios.post(`http://52.67.32.82/api/cajachica/${id}`, data)
     .then(response => null)
     .catch(error => {
     console.error('There was an error!', error);
      });
   }
   function postDeleteRow(id) {
-    Axios.delete(`http://15.228.82.239/api/cajachica/${id}`);
+    Axios.delete(`http://52.67.32.82/api/cajachica/${id}`);
   };
 
 

@@ -61,7 +61,7 @@ const Signin = () => {
         data_login.username = username
         data_login.password = password
     console.log(data_login)
-    Axios.post(`http://15.228.82.239/api/auth`, data_login)
+    Axios.post(`http://52.67.32.82/api/auth`, data_login)
     .then(response => {
         console.log(response)
         setAuthresponse(response.data.msg)

@@ -10,8 +10,17 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: 550,
   },
+  h2:{
+    color: "orange",
+    marginLeft: "13px",
+
+  },
+  p:{
+    marginLeft: "13px",
+    color: "gray",
+  }
 });
 
 function createData(name, calories, fat, carbs, protein) {
@@ -33,6 +42,8 @@ export default function ResumeTable() {
 
   return (
     <TableContainer component={Paper}>
+      <h2 className={classes.h2}>Detalle del formulario f29</h2>
+      <p className={classes.p}>Resumen del mes</p>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
