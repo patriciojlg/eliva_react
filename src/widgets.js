@@ -17,8 +17,16 @@ import {
 } from "react-router-dom";
 import ResumeTable from './components/table_resume';
 import ChartBar from './components/ChartBar.js';
-import History from './components/history.js'
-export default function Widgets({ setDetalle }) {
+import History from './components/history.js';
+import Axios from 'axios';
+
+  
+
+export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
+
+
+
+
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {
       marginTop: "1em",
@@ -105,7 +113,7 @@ export default function Widgets({ setDetalle }) {
        />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <ImpuestosManuales />
+        <ImpuestosManuales ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut}/>
        
         </Grid>
         </Grid>
@@ -115,7 +123,7 @@ export default function Widgets({ setDetalle }) {
 
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-      <ResumeTable />
+      <ResumeTable ppm={ppm} iut={iut} />
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <History />

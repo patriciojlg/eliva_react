@@ -25,6 +25,10 @@ function App() {
   //Periodo hooks
   const [date, setDate] = React.useState(new Date());
 
+  //Impuestos manuales
+  const [ppm, setPpm] = React.useState("0")
+  const [iut, setIut] = React.useState("0")
+
   //Empresa hooks
 
   const [detalle, setDetalle] = React.useState("PRINCIPAL");
@@ -55,7 +59,7 @@ function App() {
       });
     }
 
-
+    
 
 
   React.useEffect(() => {
@@ -123,7 +127,7 @@ function App() {
             <Container >
               <Switch >
                 <Route exact path="/" >
-                  <Widgets setDetalle={setDetalle} />
+                  <Widgets ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut} setDetalle={setDetalle} />
                 </Route>
                 <Route path="/boletas-honorario" >
                   <TableBoletaH />
