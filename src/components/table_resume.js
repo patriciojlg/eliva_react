@@ -27,18 +27,16 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-
-
-export default function ResumeTable({iut, ppm}) {
+export default function ResumeTable({iut, ppm, getData}) {
   const classes = useStyles();
 var rows = [
-  createData('Boletas Venta', 159000, ),
-  createData('Facturas de Venta', 237, ),
-  createData('Facturas Compra', -262),
-  createData('Boletas Honorario', -305, ),
-  createData('Caja Chica', 356, ),
-  createData('PPM', ppm, ),
-  createData('Impuesto único trabajador', iut, ),
+  createData('Boletas Venta', getData("impuestos", "boletas_ventas"), ),
+  createData('Facturas de Venta',getData("impuestos", "facturas_ventas"), ),
+  createData('Facturas Compra', getData("impuestos", "facturas_compras")),
+  createData('Boletas Honorario',getData("impuestos", "boletas_honorario")),
+  createData('Caja Chica', getData("impuestos", "caja_chica") ),
+  createData('PPM',  getData("impuestos", "ppm") ),
+  createData('Impuesto único trabajador', getData("impuestos", "iut")),
 ];
   return (
     <TableContainer component={Paper}>

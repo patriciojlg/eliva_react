@@ -18,11 +18,10 @@ import {
 import ResumeTable from './components/table_resume';
 import ChartBar from './components/ChartBar.js';
 import History from './components/history.js';
-import Axios from 'axios';
 
   
 
-export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
+export default function Widgets({getData, setData, ppm, setPpm, iut, setIut, setDetalle }) {
 
 
 
@@ -55,7 +54,7 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
 
           <DashBoardCard type="fill"
             title="BOLETAS DE VENTAS"
-            value={250000}
+            value={getData("impuestos","boletas_ventas")}
             lastMonth={260000}
             icon={<ReceiptIcon />}
 
@@ -69,7 +68,7 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
 
           <DashBoardCard type="fill"
             title="FACTURAS DE VENTAS"
-            value={250000}
+            value={getData("impuestos","facturas_ventas")}
             lastMonth={260000}
             icon={<TrendingUpIcon />}
             colorIcon="#9c27b0" />
@@ -83,7 +82,7 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
 
           <DashBoardCard type="fill"
             title="FACTURAS DE COMPRAS"
-            value={250000}
+            value={getData("impuestos","facturas_compras")}
             lastMonth={260000}
             icon={<TransitEnterexitIcon />}
             colorIcon="#f44336" />
@@ -95,7 +94,7 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
         <Link onClick={() => cambiarDetalle("BOLETAS HONORARIO")} className={classes.lessAnchorUnderLine} to="/boletas-honorario">
           <DashBoardCard type="fill"
             title="BOLETAS HONORARIO"
-            value={250000}
+            value={getData("impuestos","boletas_honorario")}
             lastMonth={260000}
             icon={<AccountBoxIcon />}
             colorIcon="#ffd740" />
@@ -107,7 +106,7 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
       <TotalWidget type="fill"
             color="blue"
             title="TOTAL IVA A PAGAR"
-            value={11500000}
+            value={getData("impuestos","iva")}
             lastMonth={260000}
             icon={<AttachMoneyIcon style={{ fontSize: 200, color: "rgb(46, 69, 123)" }}/>}
        />
@@ -118,15 +117,15 @@ export default function Widgets({ppm, setPpm, iut, setIut, setDetalle }) {
         </Grid>
         </Grid>
         <Link onClick={() => cambiarDetalle("CAJA CHICA")} className={classes.lessAnchorUnderLine} to="/caja-chica">
-        <ChartBar />
+        <ChartBar getData={getData}/>
         </Link>
 
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-      <ResumeTable ppm={ppm} iut={iut} />
+      <ResumeTable getData={getData} ppm={ppm} iut={iut} />
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        <History />
+        <History getData={getData}/>
       </Grid>
     </Grid>
 

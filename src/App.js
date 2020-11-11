@@ -21,7 +21,11 @@ import TableFacturaVenta from './tableFacturaVenta';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CajaChica from './caja-chica';
 import Signin from './components/signin';
+import useDashboard from './hooks/useDashboard'
 function App() {
+
+  //General state dashboard
+  const [getData, setData] = useDashboard();
   //Periodo hooks
   const [date, setDate] = React.useState(new Date());
 
@@ -127,7 +131,7 @@ function App() {
             <Container >
               <Switch >
                 <Route exact path="/" >
-                  <Widgets ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut} setDetalle={setDetalle} />
+                  <Widgets getData={getData} setData={setData} ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut} setDetalle={setDetalle} />
                 </Route>
                 <Route path="/boletas-honorario" >
                   <TableBoletaH />
