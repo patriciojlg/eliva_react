@@ -1,7 +1,9 @@
 import React from "react";
 
+import Axios from "axios";
 
 export default function useDashboard() {
+
 
   const valores = {
     empresas: [
@@ -23,6 +25,7 @@ export default function useDashboard() {
       ppm: 0,
       iut: 0,
       iva: 0,
+
       iva_anterior: 0
     },
     historicos: {
@@ -83,6 +86,34 @@ export default function useDashboard() {
 
   const [estado, setEstado] = React.useState({ ...valores });
 
+  function get_valores() {
+    const token = localStorage.getItem('token');
+    var data = '';
+
+    var config = {
+      method: 'get',
+      url: 'http://52.67.32.82/api/dashboard/2020/11/158389460',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      data: data
+    };
+
+    Axios(config)
+      .then(function (response) {
+        const data = response.data
+        console.log(data)
+        setEstado(data)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+  React.useEffect(() => {
+    get_valores()
+  }, [true]
+  );
   function setData(clave, segunda_clave, dato) {
     if (segunda_clave == null) {
       setEstado({ ...estado, [clave]: dato });
