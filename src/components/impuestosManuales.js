@@ -24,7 +24,7 @@ export default function ImpuestosManuales({setIut, ppm, setPpm, iut}) {
     
         var config = {
           method: 'get',
-          url: 'http://52.67.32.82/api/impuestos-manuales',
+          url: 'http://18.228.152.164/api/impuestos-manuales',
           headers: {
             'Authorization': `Bearer ${token}`
           },
@@ -53,7 +53,7 @@ export default function ImpuestosManuales({setIut, ppm, setPpm, iut}) {
             _iut: {iut},
         }
         const token = localStorage.getItem('token');
-        Axios.post(`http://52.67.32.82/api/impuestos-manuales`, data, {
+        Axios.post(`http://18.228.152.164/api/impuestos-manuales`, data, {
             headers: { "Authorization": `Bearer ${token}` }
         })
         .then(response => {window.location.reload()})

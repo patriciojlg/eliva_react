@@ -92,7 +92,7 @@ export default function useDashboard() {
 
     var config = {
       method: 'get',
-      url: 'http://52.67.32.82/api/dashboard/2020/11/158389460',
+      url: 'http://18.228.152.164/api/dashboard/2020/11/158389460',
       headers: {
         'Authorization': `Bearer ${token}`
       },

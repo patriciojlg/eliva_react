@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 
-export default function CajaChica() {
+export default function ClientesProveedores() {
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {
       marginTop: "1em !important"
@@ -61,7 +61,7 @@ export default function CajaChica() {
   const classes = useStyles();
   return (
     <MaterialTable
-      title="Caja chica"
+      title="Mis Clientes y Proveedores"
       columns={stado.columns}
       data={state.data}
 

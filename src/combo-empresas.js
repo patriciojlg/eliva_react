@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function ComboBox({
   setEmpresa, empresalist, setRutempresa
 }) {
-;
+  ;
   const defaultProps = {
     options: empresalist,
     getOptionLabel: (option) => option.nombre,
@@ -18,17 +18,18 @@ export default function ComboBox({
 
   function cambiaElValor(e) {
     setEmpresa(e.target.textContent);
-    console.log(e.target.textContent);
+    console.log(e.target.textContent, "e target");
     return
   }
   const [value, setValue] = React.useState(null);
-
+  console.log(flatProps, "flatProps")
   return (<Autocomplete {...defaultProps}
     id="Empresa"
+    defaultValue={[flatProps[0]]}
     onChange={(e) => cambiaElValor(e)}
     debug renderInput={(params) => <TextField {...params}
-        label="Empresa"
-        margin="normal" />
+      label="Empresa"
+      margin="normal" />
     }
   />
   );

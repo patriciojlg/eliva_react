@@ -22,13 +22,15 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CajaChica from './caja-chica';
 import Signin from './components/signin';
 import useDashboard from './hooks/useDashboard'
+import SyncTable from './components/synctable'
+import Administrador from './pages/administrador'
+
 function App() {
 
   //General state dashboard
   const [getData, setData] = useDashboard();
   //Periodo hooks
   const [date, setDate] = React.useState(new Date());
-
   //Impuestos manuales
   const [ppm, setPpm] = React.useState("0")
   const [iut, setIut] = React.useState("0")
@@ -41,12 +43,14 @@ function App() {
   const [empresalist, setEmpresalist] = React.useState("");
   const [rutempresa, setRutempresa] = React.useState("");
   function controlSession() {
+
+    console.log(valores, "ESTO ES VALORES")
     const token = localStorage.getItem('token');
     var data = '';
 
     var config = {
       method: 'get',
-      url: 'http://52.67.32.82/api/auth',
+      url: 'http://18.228.152.164/api/auth',
       headers: {
         'Authorization': `Bearer ${token}`
       },
@@ -58,7 +62,7 @@ function App() {
         console.log(JSON.stringify(response.data));
       })
       .catch(function (error) {
-        localStorage.removeItem('token');
+        //localStorage.removeItem('token');
         console.log(error);
       });
     }
@@ -70,7 +74,7 @@ function App() {
 
     controlSession()
     const getEmpresas = async (setEmpresalist, empresalist) => {
-      const api = await Axios.get("http://52.67.32.82/api/empresas");
+      const api = await Axios.get("http://18.228.152.164/api/empresas");
       const empresas = await api.data;
       setEmpresalist(empresas);
       console.log(empresa)
@@ -141,6 +145,9 @@ function App() {
                 </Route>
                 <Route path="/caja-chica" >
                   <CajaChica />
+                </Route>
+                <Route path="/administrador" >
+                  <Administrador date={date} rutempresa={rutempresa}   />
                 </Route>
                 <Route path="/facturas-ventas" >
                   <TableFacturaVenta />
