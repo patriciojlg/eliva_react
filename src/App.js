@@ -65,41 +65,43 @@ function App() {
         //localStorage.removeItem('token');
         console.log(error);
       });
-    }
+  }
 
-    
+
 
 
   React.useEffect(() => {
-    const data =  {"propietario":"gerencia@ciden.cl"}
+    const access_token = localStorage.getItem('access_token');
     controlSession()
     const getEmpresas = async (setEmpresalist, empresalist) => {
-      var data = JSON.stringify( {"propietario":"gerencia@ciden.cl"});
-    var config = {
-      method: 'get',
-      url: 'http://localhost:8080/example-endpoint',
-      headers: {
-        "Content-Type": "application/json",
+      var config = {
+        method: 'get',
+        url: 'http://18.228.152.164/api/empresas/',
+        headers: {
+          "Authorization": `Bearer ${access_token}`,
+        }
+      };
+      console.log("access token", access_token)
+      Axios(config)
+        .then(function (response) {
+         
+          const empresas = response.data
+          setEmpresalist(empresas);
+          const data_empresa = empresas.find(emp => emp.nombre === empresa["nombre"]);
+          setRutempresa(empresa["rut"]);
+          console.log(rutempresa)
+        })
+        .catch(function (error) {
+          //localStorage.removeItem('token');
+          console.log(error);
+        });
 
-      },
-      data: { params: data}
-    };
 
-    Axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        //localStorage.removeItem('token');
-        console.log(error);
-      });
-    
-  
-     // setEmpresalist(empresas);
-     // console.log(empresa)
-     // const data_empresa = empresas.find(emp => emp.nombre === empresa["nombre"]);
-     // setRutempresa(empresa["rut"]);
-     // console.log(rutempresa)
+      // setEmpresalist(empresas);
+      // console.log(empresa)
+      // const data_empresa = empresas.find(emp => emp.nombre === empresa["nombre"]);
+      // setRutempresa(empresa["rut"]);
+      // console.log(rutempresa)
     }
 
     getEmpresas(setEmpresalist, empresalist);
@@ -144,7 +146,7 @@ function App() {
 
   const classes = useStyles();
   return (<React.Fragment >
-    {(token == null ) ? <Signin /> :
+    {(token == null) ? <Signin /> :
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Router >
 
@@ -166,7 +168,7 @@ function App() {
                   <CajaChica />
                 </Route>
                 <Route path="/administrador" >
-                  <Administrador date={date} rutempresa={rutempresa}   />
+                  <Administrador date={date} rutempresa={rutempresa} />
                 </Route>
                 <Route path="/facturas-ventas" >
                   <TableFacturaVenta />
