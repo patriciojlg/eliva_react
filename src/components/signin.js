@@ -61,13 +61,17 @@ const Signin = () => {
         data_login.username = username
         data_login.password = password
     console.log(data_login)
-    Axios.post(`http://18.228.152.164/api/auth`, data_login)
+    Axios.post(`http://18.228.152.164/api/login/`, data_login)
     .then(response => {
         console.log(response)
-        setAuthresponse(response.data.msg)
-        if (response.data.msg == "Login correcto"){
-        localStorage.setItem('token',response.data.access_token)
+        if (response.status == 200){
+        setAuthresponse("Login correcto")
+        localStorage.setItem('access_token',response.data.access_token)
+        localStorage.setItem('refresh_token',response.data.refresh_token)
         window.location.reload()
+    }
+    else{
+        setAuthresponse("Usuario o contraseña, incorrectos")
     }
     })
     .catch(error => {

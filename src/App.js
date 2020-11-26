@@ -71,16 +71,35 @@ function App() {
 
 
   React.useEffect(() => {
-
+    const data =  {"propietario":"gerencia@ciden.cl"}
     controlSession()
     const getEmpresas = async (setEmpresalist, empresalist) => {
-      const api = await Axios.get("http://18.228.152.164/api/empresas");
-      const empresas = await api.data;
-      setEmpresalist(empresas);
-      console.log(empresa)
-      const data_empresa = empresas.find(emp => emp.nombre === empresa["nombre"]);
-      setRutempresa(empresa["rut"]);
-      console.log(rutempresa)
+      var data = JSON.stringify( {"propietario":"gerencia@ciden.cl"});
+    var config = {
+      method: 'get',
+      url: 'http://localhost:8080/example-endpoint',
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      data: { params: data}
+    };
+
+    Axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        //localStorage.removeItem('token');
+        console.log(error);
+      });
+    
+  
+     // setEmpresalist(empresas);
+     // console.log(empresa)
+     // const data_empresa = empresas.find(emp => emp.nombre === empresa["nombre"]);
+     // setRutempresa(empresa["rut"]);
+     // console.log(rutempresa)
     }
 
     getEmpresas(setEmpresalist, empresalist);
@@ -121,7 +140,7 @@ function App() {
 
   }));
   // getter
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('access_token');
 
   const classes = useStyles();
   return (<React.Fragment >
