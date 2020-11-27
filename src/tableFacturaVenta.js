@@ -1,76 +1,67 @@
 import React from 'react';
-import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import get_facturas_venta from './providers/obtener_facturas_venta.js';
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
-export default function TableFacturaVenta() {
-  const useStyles = makeStyles(theme => ({
-    themeMarginTop: {
-      marginTop: "1em !important"
-      }
-  }));
-  const stado = {
-    columns: [
-      { title: 'Fecha', field: 'Fecha' },
-      { title: 'Tipo Doc', field: 'TipoDoc' },
-      { title: 'Nro. Doc.', field: 'NroDoc', },
-      { title: 'Tipo Venta', field: 'TipoVent', },
-      { title: 'Rut Cliente', field: 'RutCliente'},
-      { title: 'Monto Neto', field: 'MontoNeto'},
-      { title: 'IVA', field: 'IVA'},
-      { title: 'Monto Excento',field: 'MontoExcento'},
-      { title: 'Monto Total', field: 'MontoTotal'},
-     
-    ],
-    data: [
-      { Fecha: "29/7/2020", TipoDoc: "33", NroDoc: "459", TipoVent: "Crédito", RutCliente: "19253265-2", MontoNeto: "100.000", IVA: "19.000", MontoExcento: "0", MontoTotal:"91.000"},
-      { Fecha: "30/7/2020", TipoDoc: "33", NroDoc: "460", TipoVent: "Crédito", RutCliente: "12345767-2", MontoNeto: "100.000", IVA: "19.000", MontoExcento: "0", MontoTotal:"91.000"},
-     
-    ],
-  }
-  const [state, setState] = React.useState(stado);
+export default function TableFacturaVenta({rutempresa, date}) {
+ 
+  const [facturaventalist, setFacturaventalist] = React.useState([])
+  React.useEffect(() => {
+    get_facturas_venta({rutempresa, date, setFacturaventalist})
+ console.log("boleta list", facturaventalist)
+ console.log("Esto es rut-empresa", rutempresa)
+
+    },[rutempresa, date])
+
+
+
   const classes = useStyles();
+ 
+
   return (
-    <MaterialTable 
-      title="Facturas de venta"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-      className={classes.themeMarginTop} />
+    <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+
+            <TableCell align="right">Tipo Doc</TableCell>
+            <TableCell align="right">Tipo Venta</TableCell>
+            <TableCell align="right">Rut Cliente</TableCell>
+            <TableCell align="right">Razón Social</TableCell>
+            <TableCell align="right">Fecha Doc</TableCell>
+            <TableCell align="right">Monto Exento</TableCell>
+            <TableCell align="right">Monto Neto</TableCell>
+            <TableCell align="right">Iva Recuperable</TableCell>
+            <TableCell align="right">Monto Total</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {facturaventalist.map((row) => (
+            <TableRow key={row._id}>
+              <TableCell align="right">{row.TipoDoc}</TableCell>
+              <TableCell align="right">{row.TipoVenta}</TableCell>
+              <TableCell align="right">{row.Rutcliente}</TableCell>
+              <TableCell align="right">{row.RazonSocial}</TableCell>
+              <TableCell align="right">{row.FechaDocto}</TableCell>
+              <TableCell align="right">{row.MontoExento}</TableCell>
+              <TableCell align="right">{row.MontoNeto}</TableCell>
+              <TableCell align="right">{row.MontoIVA}</TableCell>
+              <TableCell align="right">{row.Montototal}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

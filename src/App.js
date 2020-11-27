@@ -16,7 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import SimpleBreadcrumbs from './breadcrums';
 import Axios from 'axios';
-import TableFactura from './table';
+import TableFacturaCompra from './table';
 import TableFacturaVenta from './tableFacturaVenta';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CajaChica from './caja-chica';
@@ -30,7 +30,8 @@ function App() {
   test_session()
   //General state dashboard
   const [getData, setData] = useDashboard();
-
+  const [titlemodal, setTitlemodal] = React.useState("")
+  const [messagemodal, setMessagemodal] = React.useState("")
 
   //Impuestos manuales
   const [ppm, setPpm] = React.useState("0")
@@ -128,10 +129,10 @@ function App() {
     {(token == null) ? <Signin /> :
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Router >
-          <SpringModal setLoading={setLoading} loading={loading}/>
+          <SpringModal messagemodal={messagemodal} titlemodal={titlemodal} setLoading={setLoading} loading={loading}/>
           <PrimarySearchAppBar className={classes.appbar} />
           <div id="algo" className={classes.backgroundMain}>
-            <SimpleBreadcrumbs setLoading={setLoading} rutempresa={rutempresa} detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
+            <SimpleBreadcrumbs setTitlemodal={setTitlemodal} setMessagemodal={setMessagemodal} setLoading={setLoading} rutempresa={rutempresa} detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
             <Container >
               <Switch >
                 <Route exact path="/" >
@@ -141,7 +142,7 @@ function App() {
                   <TableBoletaH rutempresa={rutempresa} date={date}/>
                 </Route>
                 <Route path="/facturas-compras" >
-                  {(valores === "" || rutempresa === "") ? <LinearProgress /> : <TableFactura valores={valores} empresa={empresa} />}
+                 <TableFacturaCompra rutempresa={rutempresa} date={date} />
                 </Route>
                 <Route path="/caja-chica" >
                   <CajaChica />
@@ -150,7 +151,7 @@ function App() {
                   <Administrador date={date} rutempresa={rutempresa} />
                 </Route>
                 <Route path="/facturas-ventas" >
-                  <TableFacturaVenta />
+                  <TableFacturaVenta rutempresa={rutempresa} date={date}/>
                 </Route>
               </Switch>
             </Container>

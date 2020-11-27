@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function SimpleBreadcrumbs({setEmpresa, setLoading, rutempresa, setRutempresa, empresalist, date, setDate, detalle }) {
+export default function SimpleBreadcrumbs({setMessagemodal, setTitlemodal, setEmpresa, setLoading, rutempresa, setRutempresa, empresalist, date, setDate, detalle }) {
   const classes = useStyles();
   const detalleIcon = {
     "BOLETAS VENTAS": <ReceiptIcon className={classes.iconBreadCrums} />,
@@ -88,7 +88,7 @@ export default function SimpleBreadcrumbs({setEmpresa, setLoading, rutempresa, s
             <p className={classes.span}> <span><Icon className={classes.iconBreadCrums}>home</Icon>   <Link className={classes.lessAnchorUnderLine} to="/">PRINCIPAL</Link> /</span> <span className={classes.slug}>{detalleIcon[detalle]} {detalle}</span></p>
           </Grid>
           <Grid className={classes.colButtonSii} item xs={12} sm={12} md={3}>
-            <Button variant="outlined" onClick={((e)=>pull_rpa({date, setLoading, rutempresa}))} className={classes.butonSii} color="primary">
+            <Button variant="outlined" onClick={((e)=>pull_rpa({setMessagemodal, setTitlemodal, date, setLoading, rutempresa, setRutempresa}))} className={classes.butonSii} color="primary">
               Actualizar desde sii
 </Button>
           </Grid>
