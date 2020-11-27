@@ -55,7 +55,7 @@ function App() {
     const getEmpresas = async (setEmpresalist, empresalist) => {
       var config = {
         method: 'get',
-        url: 'http://18.230.199.98 /api/empresas/',
+        url: 'http://18.230.199.98/api/empresas/',
         headers: {
           "Authorization": `Bearer ${access_token}`,
         }

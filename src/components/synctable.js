@@ -30,7 +30,7 @@ export default function SyncTable({iut, ppm, getData, date, rutempresa}) {
 var data = '';
 var config = {
   method: 'get',
-  url: 'http://18.230.199.98 /api/bh/',
+  url: 'http://18.230.199.98/api/bh/',
   headers: {
   },
   data: data

@@ -29,7 +29,7 @@ function createData(nombre, rut) {
 var data = '';
 var config = {
   method: 'get',
-  url: 'http://18.230.199.98 /api/empresas/',
+  url: 'http://18.230.199.98/api/empresas/',
   headers: {
   },
   data: data
