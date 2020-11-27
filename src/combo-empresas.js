@@ -18,11 +18,13 @@ export default function ComboBox({
 
   function cambiaElValor(e) {
     setEmpresa(e.target.textContent);
-    console.log(e.target.textContent, "e target");
+    const empresa_json = empresalist.find(element => element["nombre"] === e.target.textContent)
+    setRutempresa(empresa_json["rut"])
+    console.log(empresa_json, "e target");
     return
   }
   const [value, setValue] = React.useState(null);
-  console.log(flatProps, "flatProps")
+
   return (<Autocomplete {...defaultProps}
     id="Empresa"
     defaultValue={[flatProps[0]]}

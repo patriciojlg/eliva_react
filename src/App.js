@@ -24,55 +24,33 @@ import Signin from './components/signin';
 import useDashboard from './hooks/useDashboard'
 import SyncTable from './components/synctable'
 import Administrador from './pages/administrador'
-
+import test_session from './providers/refresh'
 function App() {
-
+  test_session()
   //General state dashboard
   const [getData, setData] = useDashboard();
-  //Periodo hooks
-  const [date, setDate] = React.useState(new Date());
+
+
   //Impuestos manuales
   const [ppm, setPpm] = React.useState("0")
   const [iut, setIut] = React.useState("0")
 
   //Empresa hooks
-
+  const [date, setDate] = React.useState(new Date());
   const [detalle, setDetalle] = React.useState("PRINCIPAL");
   const [empresa, setEmpresa] = React.useState("empresa1");
   const [valores, setValores] = React.useState("");
   const [empresalist, setEmpresalist] = React.useState("");
   const [rutempresa, setRutempresa] = React.useState("");
-  function controlSession() {
 
-    console.log(valores, "ESTO ES VALORES")
-    const token = localStorage.getItem('token');
-    var data = '';
-
-    var config = {
-      method: 'get',
-      url: 'http://18.228.152.164/api/auth',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      data: data
-    };
-
-    Axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        //localStorage.removeItem('token');
-        console.log(error);
-      });
-  }
 
 
 
 
   React.useEffect(() => {
+    
+
     const access_token = localStorage.getItem('access_token');
-    controlSession()
     const getEmpresas = async (setEmpresalist, empresalist) => {
       var config = {
         method: 'get',
@@ -152,14 +130,14 @@ function App() {
 
           <PrimarySearchAppBar className={classes.appbar} />
           <div id="algo" className={classes.backgroundMain}>
-            <SimpleBreadcrumbs detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
+            <SimpleBreadcrumbs rutempresa={rutempresa} detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
             <Container >
               <Switch >
                 <Route exact path="/" >
                   <Widgets getData={getData} setData={setData} ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut} setDetalle={setDetalle} />
                 </Route>
                 <Route path="/boletas-honorario" >
-                  <TableBoletaH />
+                  <TableBoletaH rutempresa={rutempresa} date={date}/>
                 </Route>
                 <Route path="/facturas-compras" >
                   {(valores === "" || rutempresa === "") ? <LinearProgress /> : <TableFactura valores={valores} empresa={empresa} />}
