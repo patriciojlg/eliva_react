@@ -25,6 +25,7 @@ import useDashboard from './hooks/useDashboard'
 import SyncTable from './components/synctable'
 import Administrador from './pages/administrador'
 import test_session from './providers/refresh'
+import SpringModal from './components/modal.js'
 function App() {
   test_session()
   //General state dashboard
@@ -42,7 +43,7 @@ function App() {
   const [valores, setValores] = React.useState("");
   const [empresalist, setEmpresalist] = React.useState("");
   const [rutempresa, setRutempresa] = React.useState("");
-
+  const [loading, setLoading] = React.useState(false);
 
 
 
@@ -54,7 +55,7 @@ function App() {
     const getEmpresas = async (setEmpresalist, empresalist) => {
       var config = {
         method: 'get',
-        url: 'http://18.228.152.164/api/empresas/',
+        url: 'http://18.230.199.98 /api/empresas/',
         headers: {
           "Authorization": `Bearer ${access_token}`,
         }
@@ -127,10 +128,10 @@ function App() {
     {(token == null) ? <Signin /> :
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Router >
-
+          <SpringModal setLoading={setLoading} loading={loading}/>
           <PrimarySearchAppBar className={classes.appbar} />
           <div id="algo" className={classes.backgroundMain}>
-            <SimpleBreadcrumbs rutempresa={rutempresa} detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
+            <SimpleBreadcrumbs setLoading={setLoading} rutempresa={rutempresa} detalle={detalle} className={classes.breadcrumbs} date={date} setDate={setDate} empresalist={empresalist} setRutempresa={setRutempresa} setEmpresa={setEmpresa} />
             <Container >
               <Switch >
                 <Route exact path="/" >

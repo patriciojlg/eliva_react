@@ -9,6 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@o2xp/react-datatable": "^1.1.61",
+    "@react-spring/web": "^9.0.0-rc.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -21,6 +22,7 @@
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
+    "react-spring": "^8.0.27",
     "tubular-common": "^4.1.1",
     "tubular-react": "^4.2.8",
     "tubular-react-common": "^2.1.11"

@@ -61,7 +61,7 @@ const Signin = () => {
         data_login.username = username
         data_login.password = password
     console.log(data_login)
-    Axios.post(`http://18.228.152.164/api/login/`, data_login)
+    Axios.post(`http://18.230.199.98 /api/login/`, data_login)
     .then(response => {
         console.log(response)
         if (response.status == 200){

@@ -68,7 +68,7 @@ function postEmpresa(){
   data_empresa.re_clave_sii = re_clave_sii
 
 console.log(data_empresa)
-Axios.post(`http://18.228.152.164/api/empresas/`, data_empresa)
+Axios.post(`http://18.230.199.98 /api/empresas/`, data_empresa)
 .then(response => {
   console.log(response)
   
