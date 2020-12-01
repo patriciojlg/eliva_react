@@ -21,7 +21,7 @@ import History from './components/history.js';
 
   
 
-export default function Widgets({getData, setData, ppm, setPpm, iut, setIut, setDetalle }) {
+export default function Widgets({rutempresa, date, getData, setData, ppm, setPpm, iut, setIut, setDetalle }) {
 
 
 
@@ -112,7 +112,7 @@ export default function Widgets({getData, setData, ppm, setPpm, iut, setIut, set
        />
       </Grid>
       <Grid item xs={12} sm={12} md={6}>
-        <ImpuestosManuales ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut}/>
+        <ImpuestosManuales rutempresa={rutempresa} date={date} ppm={ppm} setPpm={setPpm} iut={iut} setIut={setIut}/>
        
         </Grid>
         </Grid>

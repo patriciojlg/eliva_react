@@ -20,8 +20,8 @@ export default function ComboBox({
     setEmpresa(e.target.textContent);
     const empresa_json = empresalist.find(element => element["nombre"] === e.target.textContent)
     setRutempresa(empresa_json["rut"])
-    console.log(empresa_json, "e target");
-    return
+    console.log(empresa_json["rut"], "e target");
+
   }
   const [value, setValue] = React.useState(null);
 

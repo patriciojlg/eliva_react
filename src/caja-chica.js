@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 
-export default function CajaChica() {
+export default function CajaChica({date, rutempresa}) {
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {
       marginTop: "1em !important"
@@ -13,13 +13,13 @@ export default function CajaChica() {
 
   const stado = {
     columns: [
-      { title: 'Día', field: 'Dia' },
-      { title: 'Glosa', field: 'Glosa' },
-      { title: 'Ingreso', field: 'Ingreso', },
-      { title: 'Egreso', field: 'Egreso', },
+      { title: 'Fecha', field: 'fecha' },
+      { title: 'Glosa', field: 'clasificacion' },
+      { title: 'Ingreso', field: 'ingreso', },
+      { title: 'Egreso', field: 'egreso', },
       { title: 'Saldo', field: 'Saldo' },
-      { title: 'Clasificación', field: 'Clasificacion' },
-      { title: 'Acciones', field: 'Acciones' },
+      { title: 'Clasificación', field: 'clasificacion' },
+
     ],
     data: [
     ],
@@ -27,33 +27,56 @@ export default function CajaChica() {
   const [state, setState] = React.useState(stado);
   React.useEffect(() => {
     const getData = async (setState, state) => {
-      const api = await Axios.get("http://18.230.199.98/api/cajachica");
+      const date_iso =`${date.getDay()}/${date.getMonth()+1}/${date.getFullYear()}`
+      const data_params = {"fecha":date_iso,"rut":rutempresa}
+
+      const api = await Axios.get("http://18.230.199.98/api/cajachica", {params:data_params});
       const cajachica_from_api = await api.data;
 
       setState({ ...state, data: cajachica_from_api });
       console.log(state)
     }
     getData(setState, state);
-  }, []);
+  }, [rutempresa]);
 
   function postAddRow(data) {
-    console.log(data)
+    data["rut"] = rutempresa;
     Axios.post("http://18.230.199.98/api/cajachica", data)
       .then(response => null)
       .catch(error => {
         console.error('There was an error!', error);
       });
   }
-  function postUpdateRow(data){const id = data["_id"]["$oid"]
-    console.log(data["_id"]["$oid"])
-    Axios.post(`http://18.230.199.98/api/cajachica/${id}`, data)
-    .then(response => null)
+  function postUpdateRow(data){
+    Axios.put(`http://18.230.199.98/api/cajachica`, data)
+        .then(response => {
+            console.log(response)
+            if (response.status === 200) {
+     
+            }
+            else {
+                //notificacion erro al solicitar las boletas para este periodo
+            }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
+      }
+  function postDeleteRow(data) {
+    const data_params = {"_id": data["_id"]}
+    Axios.delete("http://18.230.199.98/api/cajachica", {params:data_params})
+    .then(response => {
+        console.log(response)
+        if (response.status === 200) {
+ 
+        }
+        else {
+            //notificacion erro al solicitar las boletas para este periodo
+        }
+    })
     .catch(error => {
-    console.error('There was an error!', error);
-     });
-  }
-  function postDeleteRow(id) {
-    Axios.delete(`http://18.230.199.98/api/cajachica/${id}`);
+        console.error('There was an error!', error);
+    });
   };
 
 
@@ -101,8 +124,8 @@ export default function CajaChica() {
               setState((prevState) => {
                 const data = [...prevState.data];
                 var removed = data.splice(data.indexOf(oldData), 1);
-                const removed_id = removed[0]._id["$oid"]
-                postDeleteRow(removed_id) 
+                console.log(removed[0])
+                postDeleteRow(removed[0]) 
                 return { ...prevState, data };
               });
             }, 800);
