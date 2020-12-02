@@ -35,7 +35,7 @@ export default function test_session() {
     }).catch(error=>{
         if (error.response.data["msg"] === "Token has expired") {
             refresh_token()
-        }
+       }
 
     })
 }
