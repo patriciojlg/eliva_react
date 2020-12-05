@@ -3,14 +3,16 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from '@material-ui/core/styles';
-
 import SyncTable from '../components/synctable.js'
 import AgregarEmpresa from '../components/agregarEmpresa.js'
-
 import MisEmpresas from '../components/misempresas.js' 
 import ClientesProveedores from "../components/clientesyproveedores"
 
+
+
 export default function Administrador({date, rutempresa}) {
+
+
 
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {

@@ -47,7 +47,7 @@ export default function pull_rpa({ setTitlemodal, setMessagemodal, date, rutempr
    if (URLactual == "/boletas-honorario") {
       show_modal("Espere", "Obteniendo datos")
       const data = { "rut": rutempresa, "ano": ano, "mes": mes };
-      Axios.post(`http://18.230.199.98${map_urls[URLactual]}`, data)
+      Axios.post(`http://54.232.8.231${map_urls[URLactual]}`, data)
          .then(function (response) {
             setLoading(false)
             console.log(JSON.stringify(response.data));
@@ -69,7 +69,7 @@ export default function pull_rpa({ setTitlemodal, setMessagemodal, date, rutempr
    if (URLactual == "/facturas-ventas") {
       show_modal("Espere", "Obteniendo datos")
       const data = { "rut": rutempresa, "fecha": fecha, "tipo": "venta" };
-      Axios.post(`http://18.230.199.98${map_urls[URLactual]}`, data)
+      Axios.post(`http://54.232.8.231${map_urls[URLactual]}`, data)
          .then(function (response) {
             setLoading(false)
             console.log(JSON.stringify(response.data));
@@ -84,7 +84,7 @@ export default function pull_rpa({ setTitlemodal, setMessagemodal, date, rutempr
       show_modal("Espere", "Obteniendo facturas de venta")
 
       const data = { "rut": rutempresa, "fecha": fecha, "tipo": "compra" };
-      Axios.post(`http://18.230.199.98${map_urls[URLactual]}`, data)
+      Axios.post(`http://54.232.8.231${map_urls[URLactual]}`, data)
          .then(function (response) {
             setLoading(false)
             console.log(JSON.stringify(response.data));

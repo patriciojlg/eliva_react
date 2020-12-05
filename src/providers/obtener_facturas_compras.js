@@ -17,7 +17,7 @@ export default function get_facturas_compra({rutempresa, date, setFacturacompral
     const month = month_zero(date);
     const date_iso =`01/${month}/${date.getFullYear()}`
     const data_params = {"fecha":date_iso,"rut":rutempresa,"tipo":"compra"}
-    Axios.get(`http://18.230.199.98/api/dte-mes/`, {params: data_params})
+    Axios.get(`http://54.232.8.231/api/dte-mes/`, {params: data_params})
     .then(response => {
         console.log(response)
         if (response.status === 200){

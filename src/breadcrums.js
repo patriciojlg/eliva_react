@@ -91,7 +91,7 @@ export default function SimpleBreadcrumbs({ setMessagemodal, setTitlemodal, setE
       const month = month_zero(date);
       const date_iso = `01/${month}/${date.getFullYear()}`
       const data_params = { "fecha": date_iso, "rut": rutempresa, "doc": "dtec" }
-      Axios.get("http://18.230.199.98/api/control-rpa/", { params: data_params })
+      Axios.get("http://54.232.8.231/api/control-rpa/", { params: data_params })
         .then(response => {
           console.log(response)
           if (response.status === 200) {

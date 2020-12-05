@@ -18,7 +18,7 @@ export default function get_facturas_venta({rutempresa, date, setFacturaventalis
     const month = month_zero(date);
     const date_iso =`01/${date.getMonth()+1}/${date.getFullYear()}`
     const data_params = {"fecha":date_iso,"rut":rutempresa,"tipo":"venta"}
-    Axios.get(`http://18.230.199.98/api/dte-mes/`, {params: data_params})
+    Axios.get(`http://54.232.8.231/api/dte-mes/`, {params: data_params})
     .then(response => {
         console.log(response)
         if (response.status === 200){

@@ -10,7 +10,7 @@ export default function post_put_impuestos(ppm, iut, date, rutempresa, setPpm, s
     function post_impuestos(date, rutempresa, setPpm, setIut) {
         const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
         const body_json = { "fecha": date_iso, "rut": rutempresa, "ppm": ppm, "iut": iut }
-        Axios.post(`http://18.230.199.98/api/impuestos-manuales/`, body_json)
+        Axios.post(`http://54.232.8.231/api/impuestos-manuales/`, body_json)
             .then(response => {
                 console.log(response)
                 if (response.status === 200) {
@@ -29,7 +29,7 @@ export default function post_put_impuestos(ppm, iut, date, rutempresa, setPpm, s
         console.log("Esto es rut empresa", rutempresa)
         const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
         const body_json = { "fecha": date_iso, "rut": rutempresa, "ppm": ppm, "iut": iut }
-        Axios.put(`http://18.230.199.98/api/impuestos-manuales/`, body_json)
+        Axios.put(`http://54.232.8.231/api/impuestos-manuales/`, body_json)
             .then(response => {
                 console.log(response)
                 if (response.status === 200) {
@@ -46,7 +46,7 @@ export default function post_put_impuestos(ppm, iut, date, rutempresa, setPpm, s
     function check_impuestos(date, rutempresa) {
         const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
         const data_params = { "fecha": date_iso, "rut": rutempresa }
-        Axios.get(`http://18.230.199.98/api/impuestos-manuales/`, { params: data_params })
+        Axios.get(`http://54.232.8.231/api/impuestos-manuales/`, { params: data_params })
             .then(response => {
                 if (response.status == 200){
                     put_impuestos(date, rutempresa)

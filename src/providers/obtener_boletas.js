@@ -5,7 +5,7 @@ import Axios from 'axios';
 export default function get_boletas_h ({rutempresa, date, setBoletalist}){ 
     const date_iso =`${date.getDay()}/${date.getMonth()+1}/${date.getFullYear()}`
     const data_params = {"fecha":date_iso,"rut":rutempresa}
-    Axios.get(`http://18.230.199.98/api/bh-mes/`, {params: data_params})
+    Axios.get(`http://54.232.8.231/api/bh-mes/`, {params: data_params})
     .then(response => {
         console.log(response)
         if (response.status === 200){

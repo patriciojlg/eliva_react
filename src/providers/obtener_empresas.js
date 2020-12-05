@@ -3,7 +3,7 @@ const access_token = localStorage.getItem('access_token');
 const  getEmpresas = async (setEmpresalist, empresalist, empresa, rutempresa) => {
     var config = {
       method: 'get',
-      url: 'http://18.230.199.98/api/empresas/',
+      url: 'http://54.232.8.231/api/empresas/',
       headers: {
         "Authorization": `Bearer ${access_token}`,
       }

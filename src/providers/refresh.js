@@ -5,7 +5,7 @@ function refresh_token() {
     const refresh_token = localStorage.getItem('refresh_token');
     var config_refresh = {
         method: 'post',
-        url: 'http://18.230.199.98/api/refresh-token/',
+        url: 'http://54.232.8.231/api/refresh-token/',
         headers: { 'Authorization': `Bearer ${refresh_token}` }
     }
     Axios(config_refresh).then(function (response) {
@@ -27,7 +27,7 @@ export default function test_session() {
     const access_token = localStorage.getItem('access_token');
     var config_test = {
         method: 'get',
-        url: 'http://18.230.199.98/api/login/',
+        url: 'http://54.232.8.231/api/login/',
         headers: { 'Authorization': `Bearer ${access_token}` }
     }
     Axios(config_test).then(function (response) {

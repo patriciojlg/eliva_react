@@ -28,6 +28,7 @@ import test_session from './providers/refresh'
 import SpringModal from './components/modal.js'
 import get_impuestos_manuales from './providers/obtener_impuestosManuales'
 import getEmpresas from './providers/obtener_empresas'
+import Voucher from './components/voucher';
 function App() {
   test_session()
   //General state dashboard
@@ -58,7 +59,7 @@ function App() {
     const  getEmpresas = async () => {
     var config = {
       method: 'get',
-      url: 'http://18.230.199.98/api/empresas/',
+      url: 'http://54.232.8.231/api/empresas/',
       headers: {
         "Authorization": `Bearer ${access_token}`,
       }
@@ -125,6 +126,9 @@ function App() {
                 </Route>
                 <Route path="/facturas-ventas" >
                   <TableFacturaVenta rutempresa={rutempresa} date={date}/>
+                </Route>
+                <Route path="/balance" >
+                  <Voucher rutempresa={rutempresa} date={date}/>
                 </Route>
               </Switch>
             </Container>
