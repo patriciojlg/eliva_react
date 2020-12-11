@@ -170,6 +170,7 @@ export default function CajaChica({ date, rutempresa }) {
               setTimeout(() => {
                 resolve();
                 if (control_ing_egr(newData) == false) { return null }
+               
                 setState((prevState) => {
 
                   const data = [...prevState.data];

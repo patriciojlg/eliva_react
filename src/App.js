@@ -29,6 +29,8 @@ import SpringModal from './components/modal.js'
 import get_impuestos_manuales from './providers/obtener_impuestosManuales'
 import getEmpresas from './providers/obtener_empresas'
 import Voucher from './components/voucher';
+import TabPanelVoucher from './components/voucherTab'
+import FullWidthTabs from './components/voucherTab';
 function App() {
   test_session()
   //General state dashboard
@@ -127,8 +129,8 @@ function App() {
                 <Route path="/facturas-ventas" >
                   <TableFacturaVenta rutempresa={rutempresa} date={date}/>
                 </Route>
-                <Route path="/balance" >
-                  <Voucher rutempresa={rutempresa} date={date}/>
+                <Route  path="/balance" >
+                  <FullWidthTabs rutempresa={rutempresa} date={date}/>
                 </Route>
               </Switch>
             </Container>
