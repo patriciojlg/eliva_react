@@ -2,14 +2,30 @@ import React from 'react';
 import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, TextField } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 export default function DetalleVoucher({ voucherid, rutempresa }) {
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {
       marginTop: "1em !important"
     }
   }));
+
+  const [cuentascontables, setCuentascontables] = React.useState([])
+
+  const postVoucher = () => {
+    Axios.get("http://54.232.8.231/api/cuentas-contables/")
+      .then(response => {
+        setCuentascontables(response.data)
+      })
+  }
+  React.useEffect(() => {
+    postVoucher()
+    console.log("ESTO ES POSTVOUCHER", cuentascontables)
+  }, [])
+
+
   const stado = {
     columns: [
       {
@@ -35,6 +51,26 @@ export default function DetalleVoucher({ voucherid, rutempresa }) {
           width: 20,
           maxWidth: 20
         },
+        editComponent: props => (
+          <Autocomplete
+            id="Agent Emails"
+            size="small"
+            options={cuentascontables}
+            getOptionLabel={option => option.nombre}
+            renderInput={params => {
+              return (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label={props.value}
+                  fullWidth
+                />
+              );
+            }}
+            onChange={e => props.onChange(e.target.innerText)}
+          />
+        )
+        
       },
     ],
     data: [
@@ -46,7 +82,7 @@ export default function DetalleVoucher({ voucherid, rutempresa }) {
   const [detail_id, setDetail_id] = React.useState()
   const [detail, setDetail] = React.useState()
   const [rowsdetail, setRowsdetail] = React.useState(stado)
-
+  const [saldo, setSaldo] = React.useState()
   //onChanges
   const [glosa, setGlosa] = React.useState()
   const [cuentacontable, setCuentacontable] = React.useState()
@@ -96,7 +132,16 @@ export default function DetalleVoucher({ voucherid, rutempresa }) {
       element.id = element.voucherId["$oid"]
       delete element.voucherId
     })
-    setRowsdetail({ ...rowsdetail, data: data })
+    setRowsdetail({ ...rowsdetail, data: data });
+    //Calculando Saldo
+    var debe = 0
+    var haber = 0
+
+    data.forEach(function(element){
+      debe += element.debe
+      haber += element.haber
+    })
+    setSaldo(haber - debe)
   }
   // U
   const updateVoucherDetail = async (newData) => {
@@ -158,12 +203,13 @@ export default function DetalleVoucher({ voucherid, rutempresa }) {
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
+  const muestra_saldo = `Detalle del Voucher - Saldo ${saldo}`
   const classes = useStyles();
   return (
     <div>
 
       <MaterialTable style={{ width: "94.8%" }}
-        title="Detalle del Voucher"
+        title={muestra_saldo}
         columns={stado.columns}
         data={rowsdetail.data}
 

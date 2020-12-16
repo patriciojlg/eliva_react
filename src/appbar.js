@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DrawerMenu from './drawermenu';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  iconNoLink:
+   {textDecoration: "none",
+  decoration: "none" ,
+  "&:visited": {  color: "white",
+  textDecoration: "none",
+  decoration: "none"},
+},
   inputRoot: {
     color: 'inherit',
   },
@@ -78,6 +86,14 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
+  },
+  title :{
+    marginTop: "0.2em",
+    decoration: "None",
+    color: "white",
+    textDecoration: "None",
+    
+
   },
   sectionMobile: {
     display: 'flex',
@@ -175,10 +191,13 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Toolbar>
          <DrawerMenu/>
+         <Link className={classes.title} to="/">
           <Typography className={classes.title} variant="h6" noWrap>
             E L I V A
           </Typography>
-          <div className={classes.search}>
+         
+          </Link>
+           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
               
@@ -194,30 +213,18 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-         
-
-         
-       
-            <Badge badgeContent={4} color="secondary">
-               <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+          <Link className={classes.iconNoLink} to="/administrador"> 
             <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+      
               color="inherit"
             >
               <SettingsIcon />
             </IconButton>
+            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

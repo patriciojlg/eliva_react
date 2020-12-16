@@ -10,19 +10,29 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon  from '@material-ui/icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import ProfileCard from './profileCard';
-
+import Icon from '@material-ui/core/Icon';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
   list: {
     width: 250,
   },
-  headingUserName:{
+  headingUserName: {
     color: "white !important",
   },
   fullList: {
     width: 'auto',
   },
+  lessAnchorUnderLine: {
+    textDecoration: "none",
+    decoration: "none" ,
+    "&:visited": {   
+      color: "black",
+    textDecoration: "none",
+    decoration: "none"},
+  },
+
 });
 
 export default function DrawerMenu() {
@@ -30,6 +40,39 @@ export default function DrawerMenu() {
   const [state, setState] = React.useState({
     left: false,
   });
+
+  const menu = [
+          
+            {nombre: "Boletas honorario",
+            url: "/boletas-honorario",
+            icon: "account_box"},
+            {nombre: "Boletas de venta",
+            url: "/boletas-ventas",
+            icon: "receipt"},
+            {nombre: "Facturas de compra",
+            url: "/facturas-compras",
+            icon: "transit_enterexit"},
+            {nombre: "Facturas de venta",
+            url: "/facturas-ventas",
+            icon: "trending_up"},
+  
+            {
+              nombre: "Caja chica",
+              url: "/caja-chica",
+              icon: "swap_vert"
+            },
+            {
+              nombre: "Voucher contable",
+              url: "/balance",
+              icon: "exposure"
+            },
+            {
+              nombre: "Administrador",
+              url: "/administrador",
+              icon: "settings"
+            }
+            
+          ]
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -47,22 +90,22 @@ export default function DrawerMenu() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-    <ProfileCard className={classes.headingUserName} name="Nombre del Usuario" location="Empresa usuario" />
+      <ProfileCard className={classes.headingUserName} name="Nombre del Usuario" location="Empresa usuario" />
 
       <List>
-        {['Administrador', 'Caja chica', 'Formulario 29', 'Boletas de venta', 'Facturas de venta', 'Facturas de compra', 'Boletas honorario' ].map((text, index) => (
-       
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        {menu.map((element, index) => (
+          <Link className={classes.lessAnchorUnderLine} to={element.url}>
+          <ListItem button key={element.nombre}>
+            <ListItemIcon><Icon>{element.icon}</Icon></ListItemIcon>
+            <ListItemText primary={element.nombre} />
           </ListItem>
-      
+</Link>
         ))}
       </List>
-  
+
       <Divider />
 
-  
+
     </div>
   );
 
@@ -70,8 +113,7 @@ export default function DrawerMenu() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-       
-          <Button onClick={toggleDrawer(anchor, true)}> <MenuIcon htmlColor="white"/></Button>
+          <Button onClick={toggleDrawer(anchor, true)}> <MenuIcon htmlColor="white" /></Button>
           <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
           </Drawer>

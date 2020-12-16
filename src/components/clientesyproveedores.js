@@ -13,13 +13,10 @@ export default function ClientesProveedores() {
 
   const stado = {
     columns: [
-      { title: 'Día', field: 'Dia' },
-      { title: 'Glosa', field: 'Glosa' },
-      { title: 'Ingreso', field: 'Ingreso', },
-      { title: 'Egreso', field: 'Egreso', },
-      { title: 'Saldo', field: 'Saldo' },
-      { title: 'Clasificación', field: 'Clasificacion' },
-      { title: 'Acciones', field: 'Acciones' },
+      { title: 'Nombre', field: 'Dia' },
+      { title: 'Rut', field: 'Glosa' },
+      { title: 'Teléfono', field: 'Ingreso', },
+      { title: 'Email', field: 'Email', }
     ],
     data: [
     ],

@@ -42,7 +42,7 @@ export default function TableFacturaVenta({rutempresa, date}) {
             <TableCell align="right">Fecha Doc</TableCell>
             <TableCell align="right">Monto Exento</TableCell>
             <TableCell align="right">Monto Neto</TableCell>
-            <TableCell align="right">Iva Recuperable</TableCell>
+            <TableCell align="right">IVA</TableCell>
             <TableCell align="right">Monto Total</TableCell>
           </TableRow>
         </TableHead>

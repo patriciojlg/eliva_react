@@ -3,14 +3,31 @@ import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 import useSnackbar from './hooks/useSnackbar'
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, TextField } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import mask_cl_peso from './util/chileanpesomask';
 export default function CajaChica({ date, rutempresa }) {
   const useStyles = makeStyles(theme => ({
     themeMarginTop: {
       marginTop: "1em !important"
     }
   }));
+
+  const [cuentascontables, setCuentascontables] = React.useState([])
+
+  const postVoucher = () => {
+    Axios.get("http://54.232.8.231/api/cuentas-contables/")
+      .then(response => {
+        setCuentascontables(response.data)
+      })
+  }
+  React.useEffect(() => {
+    postVoucher()
+    console.log("ESTO ES POSTVOUCHER", cuentascontables)
+  }, [])
+
+
   const stado = {
     columns: [
       { title: 'Fecha', align: "left", field: 'fecha', type: 'date' },
@@ -18,8 +35,27 @@ export default function CajaChica({ date, rutempresa }) {
       { title: 'Ingreso', align: "left", field: 'ingreso', type: 'numeric' },
 
       { title: 'Egreso', align: "left", field: 'egreso', type: 'numeric' },
-      { title: 'Clasificacion', align: "left", field: 'clasificacion' }
-      
+      {
+        title: 'Clasificacion', align: "left", field: 'clasificacion', editComponent: props => (
+          <Autocomplete
+            id="Agent Emails"
+            size="small"
+            options={cuentascontables}
+            getOptionLabel={option => option.nombre}
+            renderInput={params => {
+              return (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label={props.value}
+                  fullWidth
+                />
+              );
+            }} onChange={e => props.onChange(e.target.innerText)}
+          />
+        )
+      }
+
     ],
     data: [
     ],
@@ -31,56 +67,63 @@ export default function CajaChica({ date, rutempresa }) {
   const [saldofinal, setSaldofinal] = React.useState();
   const [open, setOpen] = React.useState(false);
 
+  const getData = async (setState, state) => {
+    const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
+    const data_params = { "fecha": date_iso, "rut": rutempresa }
 
-  React.useEffect(() => {
-    const getData = async (setState, state) => {
-      const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
-      const data_params = { "fecha": date_iso, "rut": rutempresa }
-
-      const api = await Axios.get("http://54.232.8.231/api/cajachica", { params: data_params });
-      const cajachica_from_api = await api.data.datos;
-      const saldo_a_la_fecha = await api.data.saldo_a_fecha
+    const api = await Axios.get("http://54.232.8.231/api/cajachica", { params: data_params });
+    const cajachica_from_api = await api.data.datos;
+    const saldo_a_la_fecha = await api.data.saldo_a_fecha
 
 
-      console.log("api", api)
-
-
-      setState({ ...state, data: cajachica_from_api });
-      console.log(state)
-
-      var ingresos_mes = 0;
-      var egresos_mes = 0;
-      cajachica_from_api.forEach(element => {
-        ingresos_mes += element["ingreso"]
-        egresos_mes += element["egreso"]
-      }
-      )
-      const saldo_mes = ingresos_mes - egresos_mes
-      setSaldoanterior(saldo_a_la_fecha - saldo_mes)
-      setSaldofinal(saldo_a_la_fecha)
+    var ingresos_mes = 0;
+    var egresos_mes = 0;
+    cajachica_from_api.forEach(element => {
+      ingresos_mes += element["ingreso"]
+      egresos_mes += element["egreso"]
     }
 
+
+    )
+    const saldo_mes = ingresos_mes - egresos_mes
+    const saldo_anterior = saldo_a_la_fecha - saldo_mes
+    setSaldoanterior(mask_cl_peso(saldo_anterior))
+    setSaldofinal(mask_cl_peso(saldo_a_la_fecha))
+    cajachica_from_api.forEach(element => {
+      var ingreso = mask_cl_peso(element["ingreso"])
+      var egreso = mask_cl_peso(element["egreso"])
+      element["ingreso"] = ingreso
+      element["egreso"] = egreso
+      
+    });
+    
+    setState({ ...state, data: cajachica_from_api });
+  }
+
+  React.useEffect(() => {
+
     getData(setState, state);
-  }, [rutempresa, date]);
+
+  }, [rutempresa, date, refresh]);
 
   function postAddRow(data) {
     const fecha_row = data["fecha"]
-    if (typeof fecha_row.getDay === "function"){
-    data["rut"] = rutempresa;
-    
-    console.log("ESTO ES FECHA", fecha_row)
-    var date_parser 
-   
-    date_parser = `0${fecha_row.getDay() -1}/${fecha_row.getMonth() + 1}/${fecha_row.getFullYear()}`;
+    if (typeof fecha_row.getDay === "function") {
+      data["rut"] = rutempresa;
 
-    console.log("Fecha Prser=", date_parser)
-    
-    data["fecha"] = date_parser
-    Axios.post("http://54.232.8.231/api/cajachica", data)
-      .then(response => null)
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
+      console.log("ESTO ES FECHA", fecha_row)
+      var date_parser
+
+      date_parser = `0${fecha_row.getDay() - 1}/${fecha_row.getMonth() + 1}/${fecha_row.getFullYear()}`;
+
+      console.log("Fecha Prser=", date_parser)
+
+      data["fecha"] = date_parser
+      Axios.post("http://54.232.8.231/api/cajachica", data)
+        .then(response => null)
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
     }
   }
   function control_ing_egr(newData) {
@@ -105,9 +148,9 @@ export default function CajaChica({ date, rutempresa }) {
   function postUpdateRow(data) {
     Axios.put(`http://54.232.8.231/api/cajachica`, data)
       .then(response => {
-        console.log(response)
+        console.log(response, "ESTO ES UPDATE")
         if (response.status === 200) {
-
+          setRefresh(!refresh)
         }
         else {
           //notificacion erro al solicitar las boletas para este periodo
@@ -170,18 +213,19 @@ export default function CajaChica({ date, rutempresa }) {
               setTimeout(() => {
                 resolve();
                 if (control_ing_egr(newData) == false) { return null }
-               
+
                 setState((prevState) => {
 
                   const data = [...prevState.data];
-             
+
                   data.push(newData);
-                  
+
                   console.log("add", newData)
                   postAddRow(newData)
                   snack_ok("Registro agregado con éxito")
+
                   return { ...prevState, data };
-                });
+                }, setRefresh(!refresh));
               }, 800);
             }),
           onRowUpdate: (newData, oldData) =>
@@ -196,6 +240,7 @@ export default function CajaChica({ date, rutempresa }) {
                     postUpdateRow(newData)
                     console.log(newData)
                     snack_ok("Registro actualizado")
+
                     return { ...prevState, data };
                   });
                 }
@@ -212,8 +257,9 @@ export default function CajaChica({ date, rutempresa }) {
                   console.log(removed[0])
                   postDeleteRow(removed[0])
                   snack_ok("Registro eliminado")
+
                   return { ...prevState, data };
-                });
+                }, setRefresh(!refresh));
               }, 800);
             }),
         }}

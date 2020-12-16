@@ -1,8 +1,5 @@
 import React from 'react';
-import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
-import ReceiptIcon from '@material-ui/icons/Receipt';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+
 import YearMonthPicker from './date-picker';
 import ComboBox from './combo-empresas';
 import Container from '@material-ui/core/Container';
@@ -11,13 +8,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import FaceIcon from '@material-ui/icons/Face';
+
 import DoneIcon from '@material-ui/icons/Done';
 import Chip from '@material-ui/core/Chip';
 import Axios from 'axios';
 import pull_rpa from './controllers/pull_rpa.js'
-import {
 
+import {
+  useLocation,
   Link
 } from "react-router-dom";
 import { Card } from '@material-ui/core';
@@ -77,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleBreadcrumbs({ setMessagemodal, setTitlemodal, setEmpresa, setLoading, rutempresa, setRutempresa, empresalist, date, setDate, detalle }) {
   const [closed, setClosed] = React.useState(false);
+
   React.useEffect(() => {
 
     function month_zero() {
@@ -113,12 +112,59 @@ export default function SimpleBreadcrumbs({ setMessagemodal, setTitlemodal, setE
 
 
   const classes = useStyles();
-  const detalleIcon = {
-    "BOLETAS VENTAS": <ReceiptIcon className={classes.iconBreadCrums} />,
-    "FACTURA VENTAS": <TrendingUpIcon className={classes.iconBreadCrums} />,
-    "FACTURA COMPRAS": <TransitEnterexitIcon className={classes.iconBreadCrums} />,
-    "BOLETAS HONORARIO": <AccountBoxIcon className={classes.iconBreadCrums} />,
-  }
+
+
+  function show_breadcrums(){
+
+    const menu = [
+       {nombre: "Principal",
+      url: "/",
+      icon:"home"},     
+      {nombre: "Boletas honorario",
+      url: "/boletas-honorario",
+      icon: "account_box"},
+      {nombre: "Boletas de venta",
+      url: "/boletas-ventas",
+      icon: "receipt"},
+      {nombre: "Facturas de compra",
+      url: "/facturas-compras",
+      icon: "transit_enterexit"},
+      {nombre: "Facturas de venta",
+      url: "/facturas-ventas",
+      icon: "trending_up"},
+  
+      {
+        nombre: "Caja chica",
+        url: "/caja-chica",
+        icon: "swap_vert"
+      },
+      {
+        nombre: "Balance",
+        url: "/balance",
+        icon: "exposure"
+      },
+      {
+        nombre: "Administrador",
+        url: "/administrador",
+        icon: "settings"
+      }]
+      const slug = window.location.pathname;
+      const url_actual = menu.filter(path => path.url === slug);
+      console.log({...url_actual}, "ESTE ES SLUG")
+      return url_actual[0]
+
+    }
+    const [breadcrum, setBreadcrum] = React.useState({nombre: "Principal",
+    url: "/",
+    icon:"home"}, )
+
+    const location = useLocation();
+    React.useEffect(()=>{
+      setBreadcrum(show_breadcrums())
+    },[location])
+
+
+
   return (
     <Container>
       <Card className={classes.breadcrumbs}>
@@ -128,7 +174,9 @@ export default function SimpleBreadcrumbs({ setMessagemodal, setTitlemodal, setE
           justify="flex-end"
           alignItems="center" pacing={1}>
           <Grid item xs={12} sm={6} md={3}>
-            <p className={classes.span}> <span><Icon className={classes.iconBreadCrums}>home</Icon>   <Link className={classes.lessAnchorUnderLine} to="/">PRINCIPAL</Link> /</span> <span className={classes.slug}>{detalleIcon[detalle]} {detalle}</span></p>
+          <p className={classes.span}> <span><Icon className={classes.iconBreadCrums}>home</Icon>   <Link className={classes.lessAnchorUnderLine} to="/">PRINCIPAL</Link> /</span> 
+      <span className={classes.slug}><Icon className={classes.iconBreadCrums}>{breadcrum.icon}</Icon> {breadcrum.nombre}</span></p>
+
           </Grid>
           <Grid className={classes.colButtonSii} item xs={12} sm={12} md={3}>
          

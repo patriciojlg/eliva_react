@@ -7,10 +7,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useLocation,
 } from "react-router-dom";
 import TableBoletaH from './tableBoletasH';
-import TableBoletaV from './TableBoletaV';
 import Widgets from './widgets';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -18,19 +16,15 @@ import SimpleBreadcrumbs from './breadcrums';
 import Axios from 'axios';
 import TableFacturaCompra from './table';
 import TableFacturaVenta from './tableFacturaVenta';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import CajaChica from './caja-chica';
 import Signin from './components/signin';
 import useDashboard from './hooks/useDashboard'
-import SyncTable from './components/synctable'
 import Administrador from './pages/administrador'
 import test_session from './providers/refresh'
 import SpringModal from './components/modal.js'
 import get_impuestos_manuales from './providers/obtener_impuestosManuales'
-import getEmpresas from './providers/obtener_empresas'
-import Voucher from './components/voucher';
-import TabPanelVoucher from './components/voucherTab'
 import FullWidthTabs from './components/voucherTab';
+
 function App() {
   test_session()
   //General state dashboard
@@ -42,7 +36,6 @@ function App() {
   const [ppm, setPpm] = React.useState("0")
   const [iut, setIut] = React.useState("0")
 
-
   //Empresa hooks
   const [date, setDate] = React.useState(new Date());
   const [detalle, setDetalle] = React.useState("PRINCIPAL");
@@ -52,12 +45,8 @@ function App() {
   const [rutempresa, setRutempresa] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-
-
-
   React.useEffect(() => {
     const access_token = localStorage.getItem('access_token');
-
     const  getEmpresas = async () => {
     var config = {
       method: 'get',
@@ -75,27 +64,21 @@ function App() {
         console.log(rutempresa)
       })
       .catch(function (error) {
- 
         console.log(error);
       });
   }
+  test_session() 
     getEmpresas()
     get_impuestos_manuales(setPpm, setIut, date, rutempresa);
-
   }, [rutempresa]);
 
-
   const useStyles = makeStyles(theme => ({
-
     backgroundMain: {
       backgroundColor: "#ebe9ff",
     },
-
     breadcrumbs: {
       backgroundColor: "white",
     }
-
-
   }));
   // getter
   const token = localStorage.getItem('access_token');

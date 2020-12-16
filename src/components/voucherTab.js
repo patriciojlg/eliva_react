@@ -78,7 +78,8 @@ export default function FullWidthTabs({date, rutempresa}) {
           aria-label="full width tabs example"
         >
           <Tab label="Vouchers" {...a11yProps(0)} />
-          <Tab label="Detalle" {...a11yProps(1)} />
+         {(voucherid != null)? <Tab label="Detalle" {...a11yProps(1)} /> : <br></br>
+}
     
         </Tabs>
       </AppBar>

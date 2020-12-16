@@ -6,18 +6,24 @@ function refresh_token() {
     var config_refresh = {
         method: 'post',
         url: 'http://54.232.8.231/api/refresh-token/',
-        headers: { 'Authorization': `Bearer ${refresh_token}` }
+        
     }
-    Axios(config_refresh).then(function (response) {
-        if (response.code === 200) {
-            const data_res = response.data;
-            localStorage.setItem("access_token", data_res["access_token"])
-            localStorage.setItem("refresh_token", data_res["refresh_token"])
+    Axios.post(config_refresh.url, {},{headers: { 'Authorization': `Bearer ${refresh_token}` }})
+        .then(function (response) {
+   
+        if (response.status === 200) {    
+            localStorage.setItem('access_token',response.data.access_token)
+            localStorage.setItem('refresh_token',response.data.refresh_token)
+       
         }
         else {
             localStorage.removeItem("access_token")
             localStorage.removeItem("refresh_token")
         }
+
+    }).catch(error => {
+
+     console.log(error, "ESTO ES ERROR")
 
     });
 
@@ -30,12 +36,14 @@ export default function test_session() {
         url: 'http://54.232.8.231/api/login/',
         headers: { 'Authorization': `Bearer ${access_token}` }
     }
-    Axios(config_test).then(function (response) {
- 
-    }).catch(error=>{
-        if (error.response.data["msg"] === "Token has expired") {
+    Axios.get(config_test.url, {headers: { 'Authorization': `Bearer ${access_token}` }} ).then(function (response) {
+        if (response.status === 401) {
             refresh_token()
-       }
+        }
+
+    }).catch(error => {
+        refresh_token()
+     console.log(error, "ESTO ES ERROR")
 
     })
 }

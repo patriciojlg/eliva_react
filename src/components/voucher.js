@@ -7,19 +7,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import Axios from 'axios';
 import { Icon, IconButton } from '@material-ui/core';
 const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'rutEmpresa', headerName: 'Rut Empresa', width: 130 },
-    { field: 'folio', headerName: 'Folio', width: 130 },
-    { field: 'periodo', headerName: 'Periodo', width: 130 },
-    { field: 'debe', headerName: 'Debe', width: 130 },
+  
+    { field: 'folio', headerName: 'Folio', width: 70 },
+    { field: 'periodo', headerName: 'Creado', width: 130 },
     { field: 'haber', headerName: 'Haber', width: 130 },
-    { field: 'cerrado', headerName: 'Cerrado', width: 130 },
-    { field: 'saldo', headerName: 'Saldo', width: 130 }
+    { field: 'debe', headerName: 'Debe', width: 130 },
+
+    { field: 'saldo', headerName: 'Saldo', width: 130 },
+    { field: "n_detalle", headerName: "N Detalle", width: 130},
+    { field: 'cerrado', headerName: 'Cerrado', width: 130 }
 ];
 
 const rows = [
-    { id: 5, rutEmpresa: '15.838.946-0', folio: '330-1', periodo: Date(), ultimaActualizacion: Date(), debe: 400, haber: 400, saldo: 0, cerrado: true },
-    { id: 2, rutEmpresa: '15.838.946-0', folio: '330-2', periodo: Date() },
+
 ];
 const useStyles = makeStyles(theme => ({
     card: {
@@ -71,7 +71,11 @@ export default function Voucher({ date, setValue, rutempresa, voucherid, setVouc
     const [refresh, setRefresh] = React.useState(true);
     const [oldselection, setOldselection] = React.useState()
     const classes = useStyles();
-    
+    function string_to_date_iso(date_api){
+        var mydate = new Date(date_api);
+        const date_iso = `${mydate.getDay()}/${mydate.getMonth() + 1}/${mydate.getFullYear()}`
+        return date_iso
+    }
     const postVoucher = async () => {
         console.log(date, "esto es date")
         const date_iso = `${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`
@@ -86,23 +90,50 @@ export default function Voucher({ date, setValue, rutempresa, voucherid, setVouc
         const data_params = { "fecha": date_iso, "rut": rutempresa }
         const api = await Axios.get("http://54.232.8.231/api/vouchers/", { params: data_params });
         const data = api.data;
+
         data.forEach(function(obj){
+            obj.n_detalle = obj.detail.length 
             obj.id = obj._id
+            // Pasa a iso tipo la fecha
+            var date_temp = obj.periodo
+            obj.periodo = string_to_date_iso(date_temp)
             delete obj._id
+            // Calcula debe
+            var debe = 0
+            obj.detail.forEach(function(det){
+                debe += det.debe
+            })
+            obj.debe = debe
+            // Calcula haber
+            var haber = 0
+            obj.detail.forEach(function(det){
+                haber += det.haber
+            })
+            obj.haber = haber
+            // Calcula saldo
+            obj.saldo = haber - debe
+
+            // Define Cerrado
+            if (obj.saldo === 0 && debe !== 0){
+                obj.cerrado = "Sí"
+            }
+            else{
+                obj.cerrado = "No"
+            }
+
         })
+
         setRowsvoucher(data)
     }
     const updateVouchers = async() => {
         return
     }
     const deleteVouchers = async() =>{
-
             const data_params = { "id": voucherid}
             const api = await Axios.delete("http://54.232.8.231/api/vouchers/", { params: data_params });
             const data = api.data;
             console.log(data)
             setRefresh(!refresh)
-
     }
 
     React.useEffect(() => {
