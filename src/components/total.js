@@ -79,8 +79,7 @@ const TotalWidget = ({ type, title, value, icon, colorIcon, lastMonth = 0 }) => 
       <IconButton
         className={classes.icon}
         aria-label={title}
-        style={{ backgroundColor: colorIcon }}
-      >
+        style={{ backgroundColor: colorIcon }}>
         {icon}
       </IconButton>
     </Grid>
@@ -132,8 +131,10 @@ const TotalWidget = ({ type, title, value, icon, colorIcon, lastMonth = 0 }) => 
           </Grid>
         </CardContent>
         <CardActions className={classes.footer}>
-          <a className={classes.textos} size="small"> <span className={value >= lastMonth ? classes.statUp : classes.statDown}>
-            {calcular_porcentaje(value, lastMonth)}</span> Respecto al mes anterior</a>
+          <a className={classes.textos} size="small"> 
+          <span className={value >= lastMonth ? classes.statUp : classes.statDown}>
+            {calcular_porcentaje(value, lastMonth)}
+            </span> Respecto al mes anterior</a>
         </CardActions>
       </Card>
     </ButtonBase>

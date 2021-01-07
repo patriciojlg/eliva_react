@@ -139,8 +139,8 @@ export default function SimpleBreadcrumbs({ setMessagemodal, setTitlemodal, setE
         icon: "swap_vert"
       },
       {
-        nombre: "Balance",
-        url: "/balance",
+        nombre: "Voucher-contable",
+        url: "/voucher-contable",
         icon: "exposure"
       },
       {

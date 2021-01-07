@@ -3,7 +3,6 @@ function validaEntero ( value ) {
     return RegExPattern.test( value );
 }
 
-
 export default function mask_cl_peso( value ) {
     if ( validaEntero ( value ) )  {  
         var retorno = '';

@@ -112,7 +112,7 @@ function App() {
                 <Route path="/facturas-ventas" >
                   <TableFacturaVenta rutempresa={rutempresa} date={date}/>
                 </Route>
-                <Route  path="/balance" >
+                <Route  path="/voucher-contable" >
                   <FullWidthTabs rutempresa={rutempresa} date={date}/>
                 </Route>
               </Switch>

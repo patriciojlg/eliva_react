@@ -63,7 +63,7 @@ export default function DrawerMenu() {
             },
             {
               nombre: "Voucher contable",
-              url: "/balance",
+              url: "/voucher-contable",
               icon: "exposure"
             },
             {

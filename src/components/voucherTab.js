@@ -49,6 +49,34 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: 1300,
   },
+  indicator:
+  {backgroundColor: "orange"},
+  example:{
+    backgroundColor: "orange",
+    selected:{
+      backgroundColor: "orange",
+    },
+  
+  },
+  indicator:{
+    backgroundColor: "orange",
+  },
+  example2:{
+    backgroundColor: "red",
+  },
+  tab1:{
+    backgroundColor: "#c9eeee",
+  },
+  tab2:{
+    backgroundColor: "#c7f9a6",
+  },
+  panel1:{
+    backgroundColor: "#d8f0f0",
+  },
+  panel2:{
+    backgroundColor: "#dbf9d5",
+  },
+
 }));
 
 export default function FullWidthTabs({date, rutempresa}) {
@@ -70,15 +98,15 @@ export default function FullWidthTabs({date, rutempresa}) {
     <div className={classes.root}>
       <AppBar position="static" width="100%" color="default">
         <Tabs
+classes={{ indicator: classes.indicator }} 
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
+          indicatorColor="red"
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Vouchers" {...a11yProps(0)} />
-         {(voucherid != null)? <Tab label="Detalle" {...a11yProps(1)} /> : <br></br>
+          <Tab  className={classes.tab1} classes={{ selected: classes.example, disabled: classes.example2}} label="Vouchers" {...a11yProps(0)} />
+         {(voucherid != null)? <Tab  className={classes.tab2}  label="Detalle" {...a11yProps(1)} /> : <br></br>
 }
     
         </Tabs>
@@ -88,10 +116,10 @@ export default function FullWidthTabs({date, rutempresa}) {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanelVoucher value={value} index={0} dir={theme.direction}>
-          <Voucher rutempresa={rutempresa} date={date} voucherid={voucherid} setVoucherid={setVoucherid} setValue={setValue}/>
+        <TabPanelVoucher className={classes.panel1} value={value} index={0} dir={theme.direction}>
+          <Voucher  rutempresa={rutempresa} date={date} voucherid={voucherid} setVoucherid={setVoucherid} setValue={setValue}/>
         </TabPanelVoucher>
-        <TabPanelVoucher value={value} index={1}  dir={theme.direction}>
+        <TabPanelVoucher className={classes.panel2} value={value} index={1}  dir={theme.direction}>
         <DetalleVoucher rutempresa={rutempresa}  voucherid={voucherid} /> 
         </TabPanelVoucher>
 
